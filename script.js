@@ -10,41 +10,34 @@ const CODONRNA = {UUU: "Phe", UUC: "Phe", UUA: "Leu", UUG: "Leu", CUU: "Leu", CU
 
 let DNAVal, RNAVal = [], aminos, proteins = [], codons;
 
-const takeDNA = function(event) {
-    event.preventDefault();
-    DNAVal = userInput.value;
-    transcript();
-    if(transcript() === 1) {
-        return;
-    }
-    translation();
-}
+
 
 const transcript = function() {
     let index = 0;
     for(const char of DNAVal) {
-        if(char == "A") {
+        if(char === "A") {
             RNAVal[index] = "U";
-        } else if(char == "T") {
+        } else if(char === "T") {
             RNAVal[index] = "A";
-        } else if(char == "G") {
+        } else if(char === "G") {
             RNAVal[index] = "C";
-        } else if(char == "C") {
+        } else if(char === "C") {
             RNAVal[index] = "G";
         } else {
             RNA.textContent = "RNA: INVALID VALUE";
             return 1;
         }
         index++;
-        RNA.textContent = `RNA: ${RNAVal.join("")}`;
+        RNA.textContent = `mRNA: ${RNAVal.join("")}`;
     }
 }
+
 
 const getCodon = function(c) {
     codons = c;
     codon.textContent = `코돈: ${codons}`;
     for(const val in CODONRNA) {
-        if(codons == val) {
+        if(codons === val) {
             aminos = CODONRNA[val];
             aminoAcid.textContent = `아미노산: ${CODONRNA[val]}`;
         }
@@ -55,12 +48,12 @@ const translation = function() {
     let isStart = false, isEnd = false, sIndex, eIndex;
     for(let k = 2; k < RNAVal.length; k++) {
         getCodon(RNAVal[k - 2] + RNAVal[k - 1] + RNAVal[k]);
-        if(aminos == "Met"&&!isStart) {
+        if(aminos === "Met"&&!isStart) {
             isStart = true;
             sIndex = k;
             for(let h = k; h < RNAVal.length; h += 3) {
                 getCodon(RNAVal[h - 2] + RNAVal[h - 1] + RNAVal[h]);
-                if(aminos == "Stop" && !isEnd) {
+                if(aminos === "Stop" && !isEnd) {
                     isEnd = true;
                     eIndex = h;
                 }
@@ -82,6 +75,17 @@ const translation = function() {
         protein.textContent = `단백질: ${proteins.toString()}`;
     }
 }
+
+const takeDNA = function(event) {
+    event.preventDefault();
+    DNAVal = userInput.value;
+    let k = 2;
+    transcript();
+    if(transcript() === 1) {
+        return;
+    }
+    translation();
+    }
 
 form.addEventListener("submit", takeDNA);
 footer.addEventListener("click", () => {
