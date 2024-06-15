@@ -8,7 +8,7 @@ describe("first tase case", () => {
         DNA = "ACTACGATCGACGTAAGCTAATT";
         browser = await puppeteer.launch({headless: false, slowMo: 80});
         page = await browser.newPage();
-        await page.goto("file:///Users/danawls/Desktop/DNA-RNA-Protein/index.html?");
+        await page.goto("file:///Users/danawls/Desktop/transcription-translation-simulator/index.html");
     });
 
     afterEach(() => {
