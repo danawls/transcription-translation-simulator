@@ -24,7 +24,7 @@ const transcript = function() {
         } else if(char === "C") {
             RNAVal[index] = "G";
         } else {
-            RNA.textContent = "RNA: INVALID VALUE";
+            RNA.textContent = "mRNA: INVALID VALUE";
             return 1;
         }
         index++;
@@ -76,10 +76,25 @@ const translation = function() {
     }
 }
 
+const updater = function() {
+    RNA.textContent = RNAVal.join("");
+    codon.textContent = codons;
+    aminoAcid.textContent = aminos;
+    protein.textContent = proteins.toString();
+}
+
 const takeDNA = function(event) {
     event.preventDefault();
+    RNAVal = [];
+    codons = "";
+    aminos = "";
+    proteins = [];
+    updater();
     DNAVal = userInput.value;
-    let k = 2;
+    if(!DNAVal) {
+        RNA.textContent = "mRNA: INVALID VALUE";
+        return;
+    }
     transcript();
     if(transcript() === 1) {
         return;
